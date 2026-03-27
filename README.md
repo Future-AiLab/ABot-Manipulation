@@ -12,6 +12,7 @@
   <a href="https://arxiv.org/abs/2602.11236"><img src="https://img.shields.io/static/v1?label=Paper&message=Technical_Report&color=red&logo=arxiv"></a>
   <a href="https://amap-cvlab.github.io/ABot-Manipulation/"><img src="https://img.shields.io/badge/Project-Website-blue"></a>
     <a href="https://huggingface.co/acvlab"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%97%20Model&message=HuggingFace&color=orange"></a>
+    <a href="https://www.modelscope.cn/datasets/amap_cvlab/Abot-M0-MetaData"><img src="https://img.shields.io/badge/🤖 Data-ModelScope-604DF4.svg"></a>
 </p>
 
 </div>
@@ -32,6 +33,8 @@
 ---
 
 ## 📢 News
+[2026-3-27] 🥳🥳**ABot-M0**'s 🎉🎉 [training code](https://github.com/amap-cvlab/ABot-Manipulation), [pre-trained weight](https://huggingface.co/acvlab/ABot-M0-Pretrain) and [data](https://www.modelscope.cn/datasets/amap_cvlab/Abot-M0-MetaData) are now available.🎉🎉
+
 [2026-2-27] 🥳🥳**ABot-M0**'s The [weights](https://huggingface.co/acvlab) and [inference code](https://github.com/amap-cvlab/ABot-Manipulation) have been released. And updated the latest result of ABot-M0 on RoboTwin2.0 to 86.1. The full content will be released soon.🎉🎉
 
 [2026-2-11] 🥳🥳**ABot-M0**'s [technical report](https://arxiv.org/abs/2602.11236) have been released. Weights and codes are coming soon. 🎉🎉
@@ -43,7 +46,7 @@
 ## Table of Contents
 - [🛠️ Installation](#-Installation)
 - [🏆 Model Zoo](#-Model-Zoo)
-- [📈 Evaluation](#-Evaluation)
+- [📈 Training and Evaluation](#-Training-and-Evaluation)
 - [📜 Citing](#-Citing)
 - [🙏 Acknowledgement](#-acknowledgement)
 
@@ -86,6 +89,7 @@ pip install -e .
 
 | Model Name | Huggingface Repository  |Description |
 | :--- |  :--- | :--- |
+| ABot-Pretrain &nbsp; | [🤗 ABot-M0-Pretrain](https://huggingface.co/acvlab/ABot-M0-Pretrain)  | Latest ABot pre-training with action manifold learning. |
 | ABot-LIBERO &nbsp; | [🤗 ABot-M0-LIBERO](https://huggingface.co/acvlab/ABot-M0-LIBERO)  | ABot trained solely on LIBERO for evaluation on LIBERO and zero-shot generalization to LIBERO-Plus. |
 | ABot-RoboCasa-GR1-Tabletop   | [🤗 ABot-M0-Robocasa](https://huggingface.co/acvlab/ABot-M0-Robocasa) | ABot trained on RoboCasa-GR1-Tabletop for evaluation. |
 | ABot-Robotwin2  | [🤗 ABot-M0-RoboTwin2](https://huggingface.co/acvlab/ABot-M0-RoboTwin2)  | ABot trained on Robotwin2 Clean and Randomized for evaluation.|
@@ -96,8 +100,8 @@ pip install -e .
 
 
 
-## 📈 Evaluation
-Please refer to the guidance in the `examples` folder to evaluate the benchmarks.
+## 📈 Training and Evaluation
+Please refer to the guidance in the `examples` folder to train and evaluate the benchmarks.
 
 ### Results 🎉🎉
 |  | LIBERO | LIBERO-PLUS  |RoboCasa-GR1-Tabletop |RoboTwin2.0 |
@@ -123,5 +127,5 @@ If you find **ABot** is useful in your research or applications, please consider
 
 
 ## 🙏 Acknowledgement
-This project builds upon [starVLA](https://github.com/starVLA/starVLA), [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL), [vggt](https://github.com/facebookresearch/vggt), [JiT](https://github.com/LTH14/JiT), [LeRobot](https://github.com/huggingface/lerobot) and [Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T). We thank these teams for their open-source contributions.
+This project builds upon [starVLA](https://github.com/starVLA/starVLA), [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL), [vggt](https://github.com/facebookresearch/vggt), [JiT](https://github.com/LTH14/JiT), [LeRobot](https://github.com/huggingface/lerobot), [Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T) and [any4lerobot](https://github.com/Tavish9/any4lerobot). We thank these teams for their open-source contributions.
 

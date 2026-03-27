@@ -15,7 +15,7 @@ We have verified that this workflow runs successfully on **NVIDIA A100** GPUs.
 
 
 ## ⬇️ 0. Download Checkpoints
-Please download Checkpoint from [🤗 ABot-M0-Robocasa](). You should replace the `base_vlm` in the `config.yaml` file with your own path.
+Please download Checkpoint from [🤗 ABot-M0-Robocasa](https://huggingface.co/acvlab/ABot-M0-Robocasa). You should replace the `base_vlm` in the `config.yaml` file with your own path.
 
 ## 📦 1. Environment Setup
 
@@ -73,3 +73,21 @@ bash examples/Robocasa_tabletop/batch_eval_args.sh
 ⚠️ **Note:** Please ensure that you specify the correct checkpoint path in `batch_eval_args.sh`  
 
 ---
+
+
+# 🚀 Reproduce Training Results
+## 📦 Step0: Download the training dataset
+Download the PhysicalAI-Robotics-GR00T-X-Embodiment-Sim directory datasets from [HuggingFace](https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-GR00T-X-Embodiment-Sim) to to your own data directory.
+
+To download only the relevant finetuning folders, you can refer [GR00T-N1.5](https://github.com/NVIDIA/Isaac-GR00T/tree/4af2b622892f7dcb5aae5a3fb70bcb02dc217b96/examples/RoboCasa#-1-dataset-preparation) repo's instruction. 
+Or using the script download the *_1000 folders.
+
+```bash
+python examples/Robocasa_tabletop/train_files/download_gr00t_ft_data.py
+```
+
+## 🚀 Step1: Start Training
+Different datasets can be selected by modifying the parameter `data_mix`, and the following script can be used to fine-tune the `*_1000` datasets, the total batch size is `64x16`:
+```bash
+bash examples/Robocasa_tabletop/train_files/run_robocasa.sh
+```

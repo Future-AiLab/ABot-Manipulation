@@ -15,6 +15,9 @@ We have verified that this workflow runs successfully on **NVIDIA 4090** GPUs.
 
 # Evaluation
 
+## ⬇️ 0. Download Checkpoints
+Please download Checkpoint from [🤗 ABot-M0-Robotwin2](https://huggingface.co/acvlab/ABot-M0-RoboTwin2). You should replace the `base_vlm` in the `config.yaml` file with your own path.
+
 ## 📦 1. Environment Setup
 
 To set up the environment, please first follow the [official RoboTwin installation guide](https://robotwin-platform.github.io/doc/usage/robotwin-install.html) to install the base `robotwin` environment.  
@@ -109,4 +112,18 @@ turn_switch
 and all modes include `demo_clean` and `demo_randomized`.
 
 
-⚠️ **Note:** It is recommended to run tests in parallel to shorten the time needed to complete all tasks.
+⚠️ **Note:** It is recommended to run tests in parallel to shorten the time needed to complete all tasks. We provide code and scripts for parallel testing `./parallel_eval/eval_notebook.sh`. Please modify them.
+
+
+# 🚀 Reproduce Training Results
+## 📦 Step0: Download the training dataset
+Download the RoboTwin 2.0 datasets from [HuggingFace](https://huggingface.co/datasets/StarVLA/RoboTwin-Randomized) to to your own data directory.
+
+
+## 🚀 Step1: Start Training
+Most of the required training files have been organized in [train_files](train_files).  
+
+Please run the following command to start training, the total batch size is `48x4`:
+```bash
+bash examples/Robotwin/train_files/run_robotwin_train.sh
+```

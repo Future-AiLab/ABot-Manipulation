@@ -1,4 +1,4 @@
-# 🚀 LIBERO-plus Evaluation
+# 🚀 LIBERO-plus zero shot Evaluation
 
 This document provides instructions for reproducing our **experimental results** with LIBERO-plus.  
 The evaluation process consists of two main parts:  
@@ -13,7 +13,7 @@ We have verified that this workflow runs successfully on both **NVIDIA A100** an
 
 ## ⬇️ 0. Download Checkpoints
 
-Please download Checkpoint from [🤗 ABot-M0-LIBERO](). You should replace the `base_vlm` in the `config.yaml` file with your own path.
+Please download Checkpoint from [🤗 ABot-M0-LIBERO](https://huggingface.co/acvlab/ABot-M0-LIBERO). You should replace the `base_vlm` in the `config.yaml` file with your own path.
 
 
 ---
@@ -68,6 +68,8 @@ Also ensure the environment variables at the top of `eval_libero.sh` are correct
 
 ---
 
-⚠️ **Note:** Since LIBERO-plus has 10,030 tasks, completing all the evaluations will take an extremely long time. It is recommended to run multiple model instances in parallel for the evaluations.
+⚠️ **Note:** Since LIBERO-plus has 10,030 tasks, completing all the evaluations will take an extremely long time. It is recommended to run multiple model instances in parallel for the evaluations. We provide code and scripts for parallel testing on cluster `./parallel_eval/run_nebula_libero_plus`. Please modify them to fit your own cluster.
+
+🚀 ABot-M0 performs zero-shot evaluation on LIBERO-plus, therefore using the model only trained on LIBERO.
 
 
