@@ -62,10 +62,18 @@ class ABot_M0(baseframework):
         self.past_action_window_size = config.framework.action_model.past_action_window_size
         self.chunk_len = self.past_action_window_size + 1 + self.future_action_window_size
 
-        self.spatial_model = spatial_model = VGGT.from_pretrained('facebook/VGGT-1B')
+        framework_cfg = getattr(self.config, "framework", None)
+        raw_use_vggt = framework_cfg.get("use_vggt", True) if framework_cfg is not None else True
+        self.use_vggt = raw_use_vggt.lower() != "false" if isinstance(raw_use_vggt, str) else bool(raw_use_vggt)
         hidden_size = self.qwen_vl_interface.model.config.hidden_size
-        self.spatial_projector = nn.Linear(2048, hidden_size)
-        self.fuser = CrossAttention(d_model=hidden_size,d_hidden=hidden_size,kv_dim=hidden_size)
+        if self.use_vggt:
+            self.spatial_model = VGGT.from_pretrained('facebook/VGGT-1B')
+            self.spatial_projector = nn.Linear(2048, hidden_size)
+            self.fuser = CrossAttention(d_model=hidden_size, d_hidden=hidden_size, kv_dim=hidden_size)
+        else:
+            self.spatial_model = None
+            self.spatial_projector = None
+            self.fuser = None
 
         
 
@@ -96,13 +104,14 @@ class ABot_M0(baseframework):
             # last_hidden_state: [B, seq_len, H]
             last_hidden = qwenvl_outputs.hidden_states[-1]   # [B, L, H]
 
-            # feed forward pass of vggt
-            with torch.no_grad():
-                spatial_input = preprocess_images(batch_images, batch_images[0][0].size[0]).to(qwen_inputs['pixel_values'].device)   
-                aggregated_tokens_list, ps_idx = self.spatial_model.aggregator(spatial_input)
-            spatial_tokens = aggregated_tokens_list[-1][:,0,ps_idx:,:]
-            spatial_tokens = self.spatial_projector(spatial_tokens)
-            last_hidden = self.fuser(last_hidden, spatial_tokens)
+            if self.use_vggt:
+                # feed forward pass of vggt
+                with torch.no_grad():
+                    spatial_input = preprocess_images(batch_images, batch_images[0][0].size[0]).to(qwen_inputs['pixel_values'].device)
+                    aggregated_tokens_list, ps_idx = self.spatial_model.aggregator(spatial_input)
+                spatial_tokens = aggregated_tokens_list[-1][:, 0, ps_idx:, :]
+                spatial_tokens = self.spatial_projector(spatial_tokens)
+                last_hidden = self.fuser(last_hidden, spatial_tokens)
 
         
         # Step 4: Action Expert Forward and Loss
@@ -176,13 +185,14 @@ class ABot_M0(baseframework):
             # last_hidden_state: [B, seq_len, H]
             last_hidden = qwenvl_outputs.hidden_states[-1]   # [B, L, H]
 
-            # feed forward pass of vggt
-            with torch.no_grad():
-                spatial_input = preprocess_images(batch_images, batch_images[0][0].size[0]).to(qwen_inputs['pixel_values'].device)   
-                aggregated_tokens_list, ps_idx = self.spatial_model.aggregator(spatial_input)
-            spatial_tokens = aggregated_tokens_list[-1][:,0,ps_idx:,:]
-            spatial_tokens = self.spatial_projector(spatial_tokens)
-            last_hidden = self.fuser(last_hidden, spatial_tokens)
+            if self.use_vggt:
+                # feed forward pass of vggt
+                with torch.no_grad():
+                    spatial_input = preprocess_images(batch_images, batch_images[0][0].size[0]).to(qwen_inputs['pixel_values'].device)
+                    aggregated_tokens_list, ps_idx = self.spatial_model.aggregator(spatial_input)
+                spatial_tokens = aggregated_tokens_list[-1][:, 0, ps_idx:, :]
+                spatial_tokens = self.spatial_projector(spatial_tokens)
+                last_hidden = self.fuser(last_hidden, spatial_tokens)
 
 
         state = torch.from_numpy(np.array(state)).to(last_hidden.device, dtype=last_hidden.dtype) if state is not None else None
