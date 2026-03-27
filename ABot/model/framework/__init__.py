@@ -31,13 +31,6 @@ def build_framework(cfg):
 
     if not hasattr(cfg.framework, "name"): 
         cfg.framework.name = cfg.framework.framework_py  # Backward compatibility for legacy config yaml
-        
-    if cfg.framework.name == "QwenOFT":
-        from ABot.model.framework.QwenOFT import Qwenvl_OFT
-        return Qwenvl_OFT(cfg)
-    elif cfg.framework.name == "QwenFast":
-        from ABot.model.framework.QwenFast import Qwenvl_Fast
-        return Qwenvl_Fast(cfg)
 
     # auto detect from registry
     framework_id = cfg.framework.name

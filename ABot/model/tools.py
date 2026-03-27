@@ -89,7 +89,6 @@ def print_freeze_status(self):
     # collect the state of parameters under each top-level module
     status_dict = defaultdict(lambda: {"Frozen": 0, "Trainable": 0, "params": []})
     for full_name, param in self.named_parameters():
-        # full_name is like "qwen_vl_interface.model.layer.weight"
         top_module = full_name.split(".", 1)[0]  # get the top-level module name
         state = "Frozen" if not param.requires_grad else "Trainable"
         status_dict[top_module]["params"].append((full_name, state))
